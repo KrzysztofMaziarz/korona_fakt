@@ -1,5 +1,7 @@
 var url = window.location.href; 
 var html = $("html").html();
-console.log(url);
-alert("It works!")
-console.log(html);
+ 
+ chrome.runtime.sendMessage({contentScriptQuery: "getComments", postId: 1},function(response) {
+	 console.log(response.comments);
+	 });
+	
