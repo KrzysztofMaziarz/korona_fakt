@@ -3,9 +3,12 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <CodeAnalysisRuleSet>..\Analyzers.ruleset</CodeAnalysisRuleSet>
+        <UserSecretsId>a22069ef-b077-4fd2-becf-23b490d31f0e</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.22" />
+        <PackageReference Include="HtmlAgilityPack.CssSelectors" Version="1.0.2" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
 
         <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
@@ -14,15 +17,13 @@
         </PackageReference>
 
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.2" />
+        <PackageReference Include="NEST" Version="7.6.1" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Command\" />
-        <Folder Include="CommandHandler\" />
     </ItemGroup>
 
 </Project>

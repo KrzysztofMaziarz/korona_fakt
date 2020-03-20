@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FakeNewsCovid.Domain.Models;
+using FakeNewsCovid.Domain.Models.Enum;
+using System.Threading.Tasks;
 
 namespace FakeNewsCovid.Domain.Services.Base
 {
-    interface IElasticSearchService
+    public interface IElasticSearchService
     {
+        Task InsertToIndexAsync(FakeNewsCovidIndex item);
+
+        Task<FakebilityEnum> MLT(string innerHtml);
     }
 }

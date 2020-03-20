@@ -1,7 +1,5 @@
-﻿using FakeNewsCovid.Domain.Models.Enum;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using FakeNewsCovid.Domain.Models.Enum;
 
 namespace FakeNewsCovid.Domain.Models
 {
@@ -16,5 +14,9 @@ namespace FakeNewsCovid.Domain.Models
         public FakebilityEnum Fakebility { get; set; }
 
         public string InnerWeb { get; set; }
+
+        public List<FakeReason> FakeReasons { get; set; }
+
+        public string DomainHost { get; set; }
     }
 }

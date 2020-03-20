@@ -12,6 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RuleSets", "RuleSets", "{1B
 		Analyzers.ruleset = Analyzers.ruleset
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ElasticsearchTools", "ElasticsearchTools", "{F8438C68-FFBB-4531-956F-FD5638F2588E}"
+	ProjectSection(SolutionItems) = preProject
+		FakeNewsCovidIndex.json = FakeNewsCovidIndex.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

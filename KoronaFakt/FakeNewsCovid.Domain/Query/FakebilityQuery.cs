@@ -4,8 +4,10 @@ using MediatR;
 
 namespace FakeNewsCovid.Domain.Query
 {
-    public class IsFakeNewsQuery : IRequest<IsFakeNewsQueryResult>
+    public class FakebilityQuery : IRequest<FakebilityQueryResult>
     {
         public Uri UrlAddress { get; set; }
+
+        public string InnerHtml { get; set; }
     }
 }

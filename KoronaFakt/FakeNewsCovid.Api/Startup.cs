@@ -1,4 +1,7 @@
 using FakeNewsCovid.Domain.Context;
+using FakeNewsCovid.Domain.Helper;
+using FakeNewsCovid.Domain.Services;
+using FakeNewsCovid.Domain.Services.Base;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,13 +25,15 @@ namespace FakeNewsCovid.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(FakeNewsCovidContext));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FakeNewsCovid API", Version = "v1" });
             });
             services.AddDbContext<FakeNewsCovidContext>(options =>
-                options.UseNpgsql(@"Server=localhost;Port=5433;Database=FakeNewsCovid;User Id=postgres;Password=postgres;"));
+                options.UseNpgsql(@"Server=77.55.226.197;Port=5432;Database=korona;User Id=dev;Password=korona@3341_fakt#45da@@34;"));
+            services.AddScoped<IFakeNewsDbService, FakeNewsDbService>();
+            services.AddScoped<IElasticSearchService, ElasticSearchService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

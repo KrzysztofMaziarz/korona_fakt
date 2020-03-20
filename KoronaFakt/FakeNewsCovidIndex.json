@@ -1,0 +1,48 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "pl_PL": {
+          "type": "hunspell",
+          "locale": "pl_PL",
+          "dedup": true
+        }
+      },
+      "analyzer": {
+        "polish_analyzer": {
+          "type": "custom",
+          "tokenizer": "lowercase",
+          "filter": [
+            "lowercase",
+            "pl_PL"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+        "Url": {
+            "type": "text",
+            "analyzer": "keyword",
+            "fielddata": true
+        },
+        "InnerHtml": {
+            "type": "text",
+            "analyzer": "polish_analyzer",
+            "search_analyzer": "polish_analyzer",
+            "search_quote_analyzer": "polish_analyzer",
+            "fielddata": "true",
+            "fields": {
+                "text": {
+                    "type": "text",
+                    "store": true
+                }
+            }
+        },
+        "Fakebility": {
+            "type": "long"
+        }
+    }
+  }
+}
