@@ -1,13 +1,18 @@
 ﻿using FakeNewsCovid.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FakeNewsCovid.Domain.Context
 {
     public class FakeNewsCovidContext : DbContext
     {
-        public FakeNewsCovidContext(DbContextOptions<FakeNewsCovidContext> options)
+        private readonly IConfiguration configuration;
+
+        public FakeNewsCovidContext(DbContextOptions<FakeNewsCovidContext> options, IConfiguration configuration)
             : base(options)
-        { }
+        {
+            this.configuration = configuration;
+        }
 
         public DbSet<TaggedUrl> TaggedUrls { get; set; }
 
@@ -17,7 +22,7 @@ namespace FakeNewsCovid.Domain.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-                optionsBuilder.UseNpgsql(@"Server=77.55.226.197;Port=5432;Database=korona;User Id=dev;Password=korona@3341_fakt#45da@@34;", x => x.MigrationsHistoryTable("__EFMigrationsHistory"));
+                optionsBuilder.UseNpgsql(configuration.GetValue<string>("SQLConnection:ConnectionString"), x => x.MigrationsHistoryTable("__EFMigrationsHistory"));
         }
     }
 }

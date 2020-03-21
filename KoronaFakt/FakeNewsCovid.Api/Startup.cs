@@ -31,7 +31,7 @@ namespace FakeNewsCovid.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FakeNewsCovid API", Version = "v1" });
             });
             services.AddDbContext<FakeNewsCovidContext>(options =>
-                options.UseNpgsql(@"Server=77.55.226.197;Port=5432;Database=korona;User Id=dev;Password=korona@3341_fakt#45da@@34;"));
+                options.UseNpgsql(Configuration.GetValue<string>("SQLConnection:ConnectionString")));
             services.AddScoped<IFakeNewsDbService, FakeNewsDbService>();
             services.AddScoped<IElasticSearchService, ElasticSearchService>();
         }

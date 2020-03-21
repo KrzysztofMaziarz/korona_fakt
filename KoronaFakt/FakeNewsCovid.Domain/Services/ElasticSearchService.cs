@@ -5,6 +5,7 @@ using FakeNewsCovid.Domain.Context;
 using FakeNewsCovid.Domain.Models;
 using FakeNewsCovid.Domain.Models.Enum;
 using FakeNewsCovid.Domain.Services.Base;
+using Microsoft.Extensions.Configuration;
 using Nest;
 
 namespace FakeNewsCovid.Domain.Services
@@ -13,12 +14,12 @@ namespace FakeNewsCovid.Domain.Services
     {
         private readonly ElasticClient client;
 
-        public ElasticSearchService()
+        public ElasticSearchService(IConfiguration configuration)
         {
-            var connectionSetting = new ConnectionSettings(new Uri("http://10.50.0.10:9200"))
+            var connectionSetting = new ConnectionSettings(new Uri(configuration.GetValue<string>("ElasticSearch:ConnectionString")))
                     .DisableDirectStreaming()
                     .DefaultMappingFor<FakeNewsCovidIndex>(d => d
-                        .IndexName("fake_news"));
+                        .IndexName(configuration.GetValue<string>("ElasticSearch:DefaultIndex")));
 
             client = new ElasticClient(connectionSetting);
         }
