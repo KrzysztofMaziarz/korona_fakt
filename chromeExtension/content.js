@@ -7,4 +7,6 @@ chrome.storage.local.set({site_html: site_html});
 chrome.runtime.sendMessage({contentScriptQuery: "GetFakebility", url: site_url,html:site_html},function(response) {
 	 console.log(response.resp);
 	 });
+	 
+
 	

@@ -12,7 +12,6 @@ chrome.runtime.onInstalled.addListener(function() {
     });
   });
 
-
 //Listner czekajacy na event z content.js. Pośredniczy w komunikacji z api 
   chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
@@ -31,6 +30,43 @@ chrome.runtime.onInstalled.addListener(function() {
   .then(response => response.json())
   .then(function(data)
 	{
+	var notificationOption;
+	var reasons = data.fakeReasons.join('<br>');
+	switch(data.fakebility) {
+	case 1:
+    notificationOption = {
+		type: "basic",
+		title: "Nierzetelne źródło",
+		message: "Uważaj! Strona którą przeglądasz zawiera informacje zgłoszone jako nieprawdziwe lub nierzetelne! Powód:<br>".concat(reasons),
+		iconUrl: "/images/alert.png",
+		requireInteraction: true  
+	};
+    break;
+	case 2:
+    notificationOption = {
+		type: "basic",
+		title: "Nieweryfikowane źródło",
+		message: "Zachowaj ostrożność! Strona którą przeglądasz nie została zweryfikowana i może zawierać niepotwierdzone informacje! Powód:<br>".concat(reasons),
+		iconUrl: "/images/warning.png",
+		requireInteraction: true  
+	};
+		break;
+	case 3:
+    notificationOption = {
+		type: "basic",
+		title: "Zweryfikowane źródło",
+		message: "Super! Strona którą przeglądasz zawiera potwierdzone informacje!",
+		iconUrl: "/images/ok.png",
+		requireInteraction: true  
+	};
+		break;
+	default:
+		break;
+	}
+	if(notificationOption)
+	{
+			chrome.notifications.create('',notificationOption);
+	}
 			sendResponse({resp:data}) //zwracany jest response
 	})
       return true;  // Will respond asynchronously.
