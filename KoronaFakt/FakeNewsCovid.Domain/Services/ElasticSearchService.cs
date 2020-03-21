@@ -40,7 +40,7 @@ namespace FakeNewsCovid.Domain.Services
                                         .Text(innerHtml))
                                         .MinTermFrequency(1)
                                         .MinDocumentFrequency(1)
-                                        .MinimumShouldMatch(new MinimumShouldMatch("70%")))));
+                                        .MinimumShouldMatch(new MinimumShouldMatch("80%")))));
 
             var result = search.Documents.ToList();
 
