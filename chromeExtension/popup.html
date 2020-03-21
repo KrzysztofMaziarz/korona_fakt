@@ -6,7 +6,20 @@
     </head>
     <body>
 	<div class="header">Korona fakt</div>
+	<div id="main-screen">
       <button class="button" id="reportSite">Zgłoś stronę!</button>
-	  <script src="popup.js"></script>
+	  	<script src="popup.js"></script>
     </body>
+	</div>
+	<div id="report-form">
+	<label class="report-label">Podaj odnośniki do treści ze zweryfikowanego źródła:</label><br><br>
+	<input type="text" class="reason-input" id="reportReason1" placeholder="np. https://www.gov.pl/web/zdrowie/co-musisz-wiedziec-o-koronawirusie"><br><br>
+	<input type="text" class="reason-input" id="reportReason2" placeholder="np. https://pacjent.gov.pl/koronawirus-informacje"><br><br>
+	<input type="text" class="reason-input" id="reportReason3" placeholder="np. https://www.who.int/health-topics/coronavirus"><br><br>
+	<button class="button" id="sendReport">Wyślij zgłoszenie!</button>
+		<script src="sendReport.js"></script>
+	</div>
+	<div id="report-sended">
+	<p>Zgłoszenie zostało pomyślnie wysłane</p>
+	</div>
   </html>
