@@ -77,16 +77,16 @@ namespace FakeNewsCovid.Domain.Services
             return existing;
         }
 
-        public async Task<FakebilityEnum> CheckUrlFakebilityAsync(string urlToCheck)
+        public async Task<(FakebilityEnum, List<FakeReason>)> CheckUrlFakebilityAsync(string urlToCheck)
         {
-            var result = await context.TaggedUrls.SingleOrDefaultAsync(x => x.Url == urlToCheck);
+            var result = await context.TaggedUrls.Include(i => i.FakeReasons).SingleOrDefaultAsync(x => x.Url == urlToCheck);
 
             if (result != null)
             {
-                return result.Fakebility;
+                return (result.Fakebility, result.FakeReasons);
             }
 
-            return FakebilityEnum.None;
+            return (FakebilityEnum.None, null);
         }
 
         public async Task<bool> IsVerifiedDomainAsync(string hostDomain)

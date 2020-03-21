@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace FakeNewsCovid.Domain.QueryHandler
 
             var result = await dbService.CheckUrlFakebilityAsync(uri.AbsoluteUri);
 
-            if (result == Models.Enum.FakebilityEnum.None)
+            if (result.Item1 == Models.Enum.FakebilityEnum.None)
             {
                 var formatted = HtmlHelper.FormatHtml(request.InnerHtml);
                 if (formatted.Length == 0)
@@ -39,10 +40,10 @@ namespace FakeNewsCovid.Domain.QueryHandler
                     formatted = request.InnerHtml;
                 }
 
-                result = await esService.MLT(formatted);
+                result.Item1 = await esService.MLT(formatted);
             }
 
-            return new FakebilityQueryResult { Fakebility = result };
+            return new FakebilityQueryResult { Fakebility = result.Item1, FakeReasons = result.Item2 != null ? result.Item2.Select(x => x.ReasonNotFakeUrl) : null };
         }
     }
 }

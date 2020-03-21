@@ -9,7 +9,7 @@ namespace FakeNewsCovid.Domain.Services.Base
 {
     public interface IFakeNewsDbService
     {
-        Task<FakebilityEnum> CheckUrlFakebilityAsync(string urlToCheck);
+        Task<(FakebilityEnum, List<FakeReason>)> CheckUrlFakebilityAsync(string urlToCheck);
 
         Task<TaggedUrl> AddFakeUrlAsync(string url, string innerWebHtml, ICollection<string> fakeReasons);
 
