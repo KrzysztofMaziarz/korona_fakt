@@ -39,6 +39,7 @@ namespace FakeNewsCovid.Domain.Services
                                     .Like(l => l
                                         .Text(innerHtml))
                                         .MinTermFrequency(1)
+                                        .MinDocumentFrequency(1)
                                         .MinimumShouldMatch(new MinimumShouldMatch("70%")))));
 
             var result = search.Documents.ToList();

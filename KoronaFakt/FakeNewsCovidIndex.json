@@ -29,16 +29,14 @@
         },
         "body": {
             "type": "text",
-            "analyzer": "polish_analyzer",
-            "search_analyzer": "polish_analyzer",
-            "search_quote_analyzer": "polish_analyzer",
-            "fielddata": "true",
             "fields": {
                 "text": {
                     "type": "text",
                     "store": true
                 }
-            }
+            },
+            "analyzer": "polish_analyzer",
+            "fielddata": true
         },
         "fakebility": {
             "type": "long"
