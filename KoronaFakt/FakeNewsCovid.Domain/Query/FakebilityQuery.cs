@@ -6,7 +6,7 @@ namespace FakeNewsCovid.Domain.Query
 {
     public class FakebilityQuery : IRequest<FakebilityQueryResult>
     {
-        public Uri UrlAddress { get; set; }
+        public string UrlAddress { get; set; }
 
         public string InnerHtml { get; set; }
     }

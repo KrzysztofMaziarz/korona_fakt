@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FakeNewsCovid.Domain.Command;
+using FakeNewsCovid.Domain.Helper;
 using FakeNewsCovid.Domain.Models;
 using FakeNewsCovid.Domain.Query;
 using FakeNewsCovid.Domain.QueryResult;
@@ -23,19 +24,20 @@ namespace FakeNewsCovid.Domain.CommandHandler
 
         public async Task<bool> Handle(MarkAsFakeCommand request, CancellationToken cancellationToken)
         {
-            if (await dbService.IsVerifiedDomainAsync(request.UrlToMark.Host))
+            var uri = new Uri(request.UrlToMark.Replace("\"", string.Empty));
+            if (await dbService.IsVerifiedDomainAsync(uri.Host))
             {
                 return false; // can not be added as fake becouse domain is verified
             }
-
-            var result = await dbService.AddFakeUrlAsync(request.UrlToMark.AbsoluteUri, request.InnerHtml, request.FakeReasons);
+            var formatted = HtmlHelper.FormatHtml(request.InnerHtml);
+            var result = await dbService.AddFakeUrlAsync(uri.AbsoluteUri, formatted, request.FakeReasons);
 
             await esService.InsertToIndexAsync(new FakeNewsCovidIndex
             {
                 Id = result.Id,
                 Fakebility = result.Fakebility,
-                InnerHtml = request.InnerHtml,
-                Url = request.UrlToMark.AbsoluteUri
+                InnerHtml = formatted,
+                Url = uri.AbsoluteUri
             });
 
             return true;

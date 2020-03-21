@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeNewsCovid.Domain.Helper;
@@ -22,12 +23,13 @@ namespace FakeNewsCovid.Domain.QueryHandler
 
         public async Task<FakebilityQueryResult> Handle(FakebilityQuery request, CancellationToken cancellationToken)
         {
-            if (await dbService.IsVerifiedDomainAsync(request.UrlAddress.Host))
+            var uri = new Uri(request.UrlAddress.Replace("\"", string.Empty));
+            if (await dbService.IsVerifiedDomainAsync(uri.Host))
             {
                 return new FakebilityQueryResult { Fakebility = Models.Enum.FakebilityEnum.Verified };
             }
 
-            var result = await dbService.CheckUrlFakebilityAsync(request.UrlAddress.AbsoluteUri);
+            var result = await dbService.CheckUrlFakebilityAsync(uri.AbsoluteUri);
 
             if (result == Models.Enum.FakebilityEnum.None)
             {

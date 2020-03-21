@@ -6,7 +6,7 @@ namespace FakeNewsCovid.Domain.Command
 {
     public class MarkAsFakeCommand : IRequest<bool>
     {
-        public Uri UrlToMark { get; set; }
+        public string UrlToMark { get; set; }
 
         public string InnerHtml { get; set; }
 
