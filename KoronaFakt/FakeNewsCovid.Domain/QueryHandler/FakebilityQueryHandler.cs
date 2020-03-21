@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeNewsCovid.Domain.Helper;
+using FakeNewsCovid.Domain.Models;
 using FakeNewsCovid.Domain.Query;
 using FakeNewsCovid.Domain.QueryResult;
 using FakeNewsCovid.Domain.Services.Base;
@@ -41,6 +43,7 @@ namespace FakeNewsCovid.Domain.QueryHandler
                 }
 
                 result.Item1 = await esService.MLT(formatted);
+                result.Item2 = new List<FakeReason> { new FakeReason { ReasonNotFakeUrl = "Found smiliar tagged as fake" } };
             }
 
             return new FakebilityQueryResult { Fakebility = result.Item1, FakeReasons = result.Item2 != null ? result.Item2.Select(x => x.ReasonNotFakeUrl) : null };
