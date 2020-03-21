@@ -31,13 +31,23 @@ chrome.runtime.onInstalled.addListener(function() {
   .then(function(data)
 	{
 	var notificationOption;
-	var reasons = data.fakeReasons.join('<br>');
+	var reasons = '';
+	var verifiedUrl = '';
+	if(data.fakeReasons && (data.fakeReasons[0].includes('html') || data.fakeReasons[0].includes('www')))
+	{
+		verifiedUrl = data.fakeReasons[0];
+		reasons = " Naciśnij tu by przejść do zweryfikowanego źródła.";
+	}
+	else if (data.fakeReasons)
+	{
+		reasons = " Powód: ".concat(data.fakeReasons[0]);
+	}
 	switch(data.fakebility) {
 	case 1:
     notificationOption = {
 		type: "basic",
-		title: "Nierzetelne źródło",
-		message: "Uważaj! Strona którą przeglądasz zawiera informacje zgłoszone jako nieprawdziwe lub nierzetelne! Powód:<br>".concat(reasons),
+		title: "Uważaj! Nierzetelne źródło",
+		message: "Strona zawiera nieprawdziwe informacje!".concat(reasons),
 		iconUrl: "/images/alert.png",
 		requireInteraction: true  
 	};
@@ -45,8 +55,8 @@ chrome.runtime.onInstalled.addListener(function() {
 	case 2:
     notificationOption = {
 		type: "basic",
-		title: "Nieweryfikowane źródło",
-		message: "Zachowaj ostrożność! Strona którą przeglądasz nie została zweryfikowana i może zawierać niepotwierdzone informacje! Powód:<br>".concat(reasons),
+		title: "Zachowaj ostrożność! Niezweryfikowane źródło",
+		message: "Strona może zawierać niepotwierdzone informacje!".concat(reasons),
 		iconUrl: "/images/warning.png",
 		requireInteraction: true  
 	};
@@ -55,7 +65,7 @@ chrome.runtime.onInstalled.addListener(function() {
     notificationOption = {
 		type: "basic",
 		title: "Zweryfikowane źródło",
-		message: "Super! Strona którą przeglądasz zawiera potwierdzone informacje!",
+		message: "Super! Strona którą przeglądasz zawiera potwierdzone informacje!".concat(reasons),
 		iconUrl: "/images/ok.png",
 		requireInteraction: true  
 	};
@@ -65,7 +75,21 @@ chrome.runtime.onInstalled.addListener(function() {
 	}
 	if(notificationOption)
 	{
+		var notificationId = Math.random().toString();
+			if(verifiedUrl)
+			{
+				var openNotificationUrl = function ()
+				{
+					chrome.tabs.create({url: verifiedUrl});
+					chrome.notifications.onClicked.removeListener(openNotificationUrl);
+				}
+				chrome.notifications.create(notificationId,notificationOption,function(verifiedUrl){});
+				chrome.notifications.onClicked.addListener(openNotificationUrl);	 
+			}
+		else
+		{
 			chrome.notifications.create('',notificationOption);
+		}	
 	}
 			sendResponse({resp:data}) //zwracany jest response
 	})
