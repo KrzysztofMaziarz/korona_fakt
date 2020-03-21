@@ -3,7 +3,6 @@
   "name": "korona fakt",
   "version": "0.1.1",
   "permissions": ["notifications","activeTab","declarativeContent", "storage"],
-  "options_page": "options.html",
   "content_scripts": [
   {
     "matches": [
