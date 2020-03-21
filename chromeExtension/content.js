@@ -5,3 +5,6 @@ var site_html = $("html").prop('outerHTML');
 	 console.log(response.resp);
 	 });
 	
+ chrome.runtime.sendMessage({contentScriptQuery: "MarkAsFake", url: site_url,html:site_html,fakeReasons:["testreson1","testreason2"]},function(response) {
+	 console.log(response.resp);
+	 });
