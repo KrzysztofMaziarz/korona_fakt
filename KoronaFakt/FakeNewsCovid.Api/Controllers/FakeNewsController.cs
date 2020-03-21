@@ -20,8 +20,8 @@ namespace FakeNewsCovid.Api.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> MarkAsFake([FromBody] MarkAsFakeCommand command)
         {
-            await mediator.Send(command);
-            return Ok();
+            bool isMarked = await mediator.Send(command);
+            return Ok(isMarked);
         }
 
         [HttpPost("[action]")]

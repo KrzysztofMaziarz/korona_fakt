@@ -10,7 +10,7 @@ using MediatR;
 
 namespace FakeNewsCovid.Domain.CommandHandler
 {
-    public class MarkAsFakeCommandHandler : IRequestHandler<MarkAsFakeCommand, Unit>
+    public class MarkAsFakeCommandHandler : IRequestHandler<MarkAsFakeCommand, bool>
     {
         private readonly IFakeNewsDbService dbService;
         private readonly IElasticSearchService esService;
@@ -21,19 +21,24 @@ namespace FakeNewsCovid.Domain.CommandHandler
             this.esService = esService;
         }
 
-        public async Task<Unit> Handle(MarkAsFakeCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(MarkAsFakeCommand request, CancellationToken cancellationToken)
         {
-            var result = await dbService.AddFakeUrlAsync(request.UrlToMark, request.InnerHtml, request.FakeReasons);
+            if (await dbService.IsVerifiedDomainAsync(request.UrlToMark.Host))
+            {
+                return false; // can not be added as fake becouse domain is verified
+            }
+
+            var result = await dbService.AddFakeUrlAsync(request.UrlToMark.AbsoluteUri, request.InnerHtml, request.FakeReasons);
 
             await esService.InsertToIndexAsync(new FakeNewsCovidIndex
             {
                 Id = result.Id,
                 Fakebility = result.Fakebility,
                 InnerHtml = request.InnerHtml,
-                Url = request.UrlToMark
+                Url = request.UrlToMark.AbsoluteUri
             });
 
-            return Unit.Value;
+            return true;
         }
     }
 }
