@@ -43,7 +43,7 @@ namespace FakeNewsCovid.Domain.QueryHandler
                 }
 
                 result.Item1 = await esService.MLT(formatted);
-                result.Item2 = new List<FakeReason> { new FakeReason { ReasonNotFakeUrl = "Found smiliar tagged as fake" } };
+                result.Item2 = new List<FakeReason> { new FakeReason { ReasonNotFakeUrl = "Znaleziono podobne, oznaczone jako podejrzane." } };
             }
 
             return new FakebilityQueryResult { Fakebility = result.Item1, FakeReasons = result.Item2 != null ? result.Item2.Select(x => x.ReasonNotFakeUrl) : null };
