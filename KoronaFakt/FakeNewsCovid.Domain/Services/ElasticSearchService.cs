@@ -35,7 +35,7 @@ namespace FakeNewsCovid.Domain.Services
                 .Query(q => q
                     .MoreLikeThis(mlt => mlt
                                     .Fields(fs => fs
-                                        .Field(f => f.InnerHtml))
+                                        .Field(f => f.Body))
                                     .Like(l => l
                                         .Text(innerHtml))
                                         .MinTermFrequency(1)

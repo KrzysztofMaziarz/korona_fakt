@@ -11,7 +11,8 @@ namespace FakeNewsCovid.Domain.Helper
         private static readonly Dictionary<int, Func<string, string>> filters = new Dictionary<int, Func<string, string>>
         {
             { 0, HttpUtility.HtmlDecode },
-            { 1, text => Regex.Replace(text, @"(<(.*?)>)", string.Empty, RegexOptions.Compiled) }
+            { 1, text => Regex.Replace(text, @"(<(.*?)>)", string.Empty, RegexOptions.Compiled) },
+            { 2, text => Regex.Replace(text, @"\\n|\n|\\r|\r|\\t|\t", string.Empty, RegexOptions.Compiled) }
         };
 
         public static void FilterOutTags(this HtmlNode node)

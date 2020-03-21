@@ -24,19 +24,25 @@ namespace FakeNewsCovid.Domain.CommandHandler
 
         public async Task<bool> Handle(MarkAsFakeCommand request, CancellationToken cancellationToken)
         {
-            var uri = new Uri(request.UrlToMark.Replace("\"", string.Empty));
+            var uri = new Uri(request.UrlToMark.Contains("\"") ? request.UrlToMark.Replace("\"", string.Empty) : request.UrlToMark);
             if (await dbService.IsVerifiedDomainAsync(uri.Host))
             {
                 return false; // can not be added as fake becouse domain is verified
             }
+
             var formatted = HtmlHelper.FormatHtml(request.InnerHtml);
+            if (formatted.Length == 0)
+            {
+                formatted = request.InnerHtml;
+            }
+
             var result = await dbService.AddFakeUrlAsync(uri.AbsoluteUri, formatted, request.FakeReasons);
 
             await esService.InsertToIndexAsync(new FakeNewsCovidIndex
             {
                 Id = result.Id,
                 Fakebility = result.Fakebility,
-                InnerHtml = formatted,
+                Body = formatted,
                 Url = uri.AbsoluteUri
             });
 

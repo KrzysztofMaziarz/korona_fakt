@@ -8,7 +8,7 @@ namespace FakeNewsCovid.Domain.Models
 
         public string Url { get; set; }
 
-        public string InnerHtml { get; set; }
+        public string Body { get; set; }
 
         public FakebilityEnum Fakebility { get; set; }
     }

@@ -23,7 +23,7 @@ namespace FakeNewsCovid.Domain.QueryHandler
 
         public async Task<FakebilityQueryResult> Handle(FakebilityQuery request, CancellationToken cancellationToken)
         {
-            var uri = new Uri(request.UrlAddress.Replace("\"", string.Empty));
+            var uri = new Uri(request.UrlAddress.Contains("\"") ? request.UrlAddress.Replace("\"", string.Empty) : request.UrlAddress);
             if (await dbService.IsVerifiedDomainAsync(uri.Host))
             {
                 return new FakebilityQueryResult { Fakebility = Models.Enum.FakebilityEnum.Verified };
@@ -34,6 +34,11 @@ namespace FakeNewsCovid.Domain.QueryHandler
             if (result == Models.Enum.FakebilityEnum.None)
             {
                 var formatted = HtmlHelper.FormatHtml(request.InnerHtml);
+                if (formatted.Length == 0)
+                {
+                    formatted = request.InnerHtml;
+                }
+
                 result = await esService.MLT(formatted);
             }
 

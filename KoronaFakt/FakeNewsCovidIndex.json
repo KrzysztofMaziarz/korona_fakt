@@ -22,12 +22,12 @@
   },
   "mappings": {
     "properties": {
-        "Url": {
+        "url": {
             "type": "text",
             "analyzer": "keyword",
             "fielddata": true
         },
-        "InnerHtml": {
+        "body": {
             "type": "text",
             "analyzer": "polish_analyzer",
             "search_analyzer": "polish_analyzer",
@@ -40,7 +40,7 @@
                 }
             }
         },
-        "Fakebility": {
+        "fakebility": {
             "type": "long"
         }
     }
