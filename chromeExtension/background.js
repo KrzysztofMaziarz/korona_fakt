@@ -33,12 +33,12 @@ chrome.runtime.onInstalled.addListener(function() {
 	var notificationOption;
 	var reasons = '';
 	var verifiedUrl = '';
-	if(data.fakeReasons && (data.fakeReasons[0].includes('html') || data.fakeReasons[0].includes('www')))
+	if(data.fakeReasons && data.fakeReasons[0] && (data.fakeReasons[0].includes('html') || data.fakeReasons[0].includes('www')))
 	{
 		verifiedUrl = data.fakeReasons[0];
 		reasons = " Naciśnij tu by przejść do zweryfikowanego źródła.";
 	}
-	else if (data.fakeReasons)
+	else if (data.fakeReasons && data.fakeReasons[0])
 	{
 		reasons = " Powód: ".concat(data.fakeReasons[0]);
 	}
