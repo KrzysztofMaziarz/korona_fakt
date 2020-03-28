@@ -8,7 +8,7 @@ namespace FakeNewsCovid.Domain.Models
     {
         public int Id { get; set; }
 
-        public string ReasonNotFakeUrl { get; set; }
+        public string ReasonNotFake { get; set; }
 
         public int TaggedUrlId { get; set; }
 

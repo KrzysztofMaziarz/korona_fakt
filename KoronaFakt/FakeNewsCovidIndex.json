@@ -27,6 +27,17 @@
             "analyzer": "keyword",
             "fielddata": true
         },
+        "title": {
+            "type": "text",
+            "fields": {
+                "text": {
+                    "type": "text",
+                    "store": true
+                }
+            },
+            "analyzer": "polish_analyzer",
+            "fielddata": true
+        },
         "body": {
             "type": "text",
             "fields": {

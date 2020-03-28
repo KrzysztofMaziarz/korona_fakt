@@ -1,13 +1,11 @@
-﻿using FakeNewsCovid.Domain.Context;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FakeNewsCovid.Domain.Context;
 using FakeNewsCovid.Domain.Models;
 using FakeNewsCovid.Domain.Models.Enum;
 using FakeNewsCovid.Domain.Services.Base;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FakeNewsCovid.Domain.Services
 {
@@ -31,7 +29,7 @@ namespace FakeNewsCovid.Domain.Services
                 {
                     foreach (var u in fakeReasonUrls)
                     {
-                        fakeReasons.Add(new FakeReason { ReasonNotFakeUrl = u });
+                        fakeReasons.Add(new FakeReason { ReasonNotFake = u });
                     }
                 }
 
@@ -61,13 +59,13 @@ namespace FakeNewsCovid.Domain.Services
             {
                 foreach (var u in fakeReasonUrls)
                 {
-                    if (!existing.FakeReasons.Any(x => x.ReasonNotFakeUrl == u))
+                    if (!existing.FakeReasons.Any(x => x.ReasonNotFake == u))
                     {
-                        existing.FakeReasons.Add(new FakeReason { ReasonNotFakeUrl = u });
+                        existing.FakeReasons.Add(new FakeReason { ReasonNotFake = u });
                     }
                     else
                     {
-                        existing.FakeReasons.SingleOrDefault(x => x.ReasonNotFakeUrl == u).ReasonNotFakeCount++;
+                        existing.FakeReasons.SingleOrDefault(x => x.ReasonNotFake == u).ReasonNotFakeCount++;
                     }
                 }
             }

@@ -7,12 +7,12 @@ namespace FakeNewsCovid.Domain.Helper
 {
     public static class HtmlHelper
     {
-        public static string FormatHtml(string document)
+        public static string FormatHtml(string document, string selector)
         {
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(document);
 
-            var nodes = htmlDocument.QuerySelectorAll("div").ToArray();
+            var nodes = htmlDocument.QuerySelectorAll(selector).ToArray();
             if (nodes.Length == 0)
             {
                 return string.Empty;

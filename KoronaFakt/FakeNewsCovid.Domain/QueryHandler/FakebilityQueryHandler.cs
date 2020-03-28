@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FakeNewsCovid.Domain.Helper;
 using FakeNewsCovid.Domain.Models;
+using FakeNewsCovid.Domain.Models.Enum;
 using FakeNewsCovid.Domain.Query;
 using FakeNewsCovid.Domain.QueryResult;
 using FakeNewsCovid.Domain.Services.Base;
@@ -29,24 +30,33 @@ namespace FakeNewsCovid.Domain.QueryHandler
             var uri = new Uri(request.UrlAddress.Contains("\"") ? request.UrlAddress.Replace("\"", string.Empty) : request.UrlAddress);
             if (await dbService.IsVerifiedDomainAsync(uri.Host))
             {
-                return new FakebilityQueryResult { Fakebility = Models.Enum.FakebilityEnum.Verified };
+                return new FakebilityQueryResult { Fakebility = FakebilityEnum.Verified };
             }
 
             var result = await dbService.CheckUrlFakebilityAsync(uri.AbsoluteUri);
 
-            if (result.Item1 == Models.Enum.FakebilityEnum.None)
+            if (result.Item1 == FakebilityEnum.None)
             {
-                var formatted = HtmlHelper.FormatHtml(request.InnerHtml);
-                if (formatted.Length == 0)
-                {
-                    formatted = request.InnerHtml;
-                }
-
-                result.Item1 = await esService.MLT(formatted);
-                result.Item2 = new List<FakeReason> { new FakeReason { ReasonNotFakeUrl = "Znaleziono podobne, oznaczone jako podejrzane." } };
+                await CheckElastic(result, request);
             }
 
-            return new FakebilityQueryResult { Fakebility = result.Item1, FakeReasons = result.Item2 != null ? result.Item2.Select(x => x.ReasonNotFakeUrl) : null };
+            return new FakebilityQueryResult { Fakebility = result.Item1, FakeReasons = result.Item2 != null ? result.Item2.Select(x => x.ReasonNotFake) : null };
+        }
+
+        private async Task CheckElastic((FakebilityEnum, List<FakeReason>) result, FakebilityQuery request)
+        {
+            var formatted = HtmlHelper.FormatHtml(request.InnerHtml, "div");
+            if (formatted.Length == 0)
+            {
+                formatted = request.InnerHtml;
+            }
+
+            result.Item1 = await esService.MLT(formatted);
+
+            if (result.Item1 == FakebilityEnum.Suspected)
+            {
+                result.Item2 = new List<FakeReason> { new FakeReason { ReasonNotFake = "Znaleziono podobne, oznaczone jako podejrzane." } };
+            }
         }
     }
 }

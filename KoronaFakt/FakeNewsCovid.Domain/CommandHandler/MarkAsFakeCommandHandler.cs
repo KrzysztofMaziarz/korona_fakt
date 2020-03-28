@@ -30,7 +30,7 @@ namespace FakeNewsCovid.Domain.CommandHandler
                 return false; // can not be added as fake becouse domain is verified
             }
 
-            var formatted = HtmlHelper.FormatHtml(request.InnerHtml);
+            var formatted = HtmlHelper.FormatHtml(request.InnerHtml, "div");
             if (formatted.Length == 0)
             {
                 formatted = request.InnerHtml;
