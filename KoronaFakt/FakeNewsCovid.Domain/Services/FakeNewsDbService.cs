@@ -18,7 +18,7 @@ namespace FakeNewsCovid.Domain.Services
             this.context = context;
         }
 
-        public async Task<TaggedUrl> AddFakeUrlAsync(string url, string innerWebHtml, ICollection<string> fakeReasonUrls)
+        public async Task<TaggedUrl> AddFakeUrlAsync(string url, string innerWebHtml, string title, ICollection<string> fakeReasonUrls)
         {
             var existing = await context.TaggedUrls.Include(i => i.FakeReasons).SingleOrDefaultAsync(x => x.Url == url);
 
@@ -36,6 +36,7 @@ namespace FakeNewsCovid.Domain.Services
                 var newFake = new TaggedUrl
                 {
                     Fakebility = FakebilityEnum.Suspected,
+                    Title = title,
                     InnerWeb = innerWebHtml,
                     TaggedFakeCount = 0,
                     FakeReasons = fakeReasons.Count > 0 ? fakeReasons : null,

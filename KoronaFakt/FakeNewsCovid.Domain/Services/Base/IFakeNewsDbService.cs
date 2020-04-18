@@ -11,7 +11,7 @@ namespace FakeNewsCovid.Domain.Services.Base
     {
         Task<(FakebilityEnum, List<FakeReason>)> CheckUrlFakebilityAsync(string urlToCheck);
 
-        Task<TaggedUrl> AddFakeUrlAsync(string url, string innerWebHtml, ICollection<string> fakeReasons);
+        Task<TaggedUrl> AddFakeUrlAsync(string url, string innerWebHtml, string title, ICollection<string> fakeReasons);
 
         Task<bool> IsVerifiedDomainAsync(string hostDomain);
     }

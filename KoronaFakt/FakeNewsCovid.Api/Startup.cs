@@ -1,7 +1,9 @@
 using FakeNewsCovid.Domain.Context;
+using FakeNewsCovid.Domain.Extensions;
 using FakeNewsCovid.Domain.Helper;
 using FakeNewsCovid.Domain.Services;
 using FakeNewsCovid.Domain.Services.Base;
+using FakeNewsCovid.Domain.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +34,8 @@ namespace FakeNewsCovid.Api
             });
             services.AddDbContext<FakeNewsCovidContext>(options =>
                 options.UseNpgsql(Configuration.GetValue<string>("SQLConnection:ConnectionString")));
+            var connectionSettings = Configuration.GetSettings<ElasticsearchSettings>();
+            services.AddSingleton(connectionSettings);
             services.AddScoped<IFakeNewsDbService, FakeNewsDbService>();
             services.AddScoped<IElasticSearchService, ElasticSearchService>();
         }

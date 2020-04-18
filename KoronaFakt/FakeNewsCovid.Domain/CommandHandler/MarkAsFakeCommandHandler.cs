@@ -36,17 +36,28 @@ namespace FakeNewsCovid.Domain.CommandHandler
                 formatted = request.InnerHtml;
             }
 
-            var result = await dbService.AddFakeUrlAsync(uri.AbsoluteUri, formatted, request.FakeReasons);
+            var result = await dbService.AddFakeUrlAsync(uri.AbsoluteUri, formatted, HtmlHelper.FormatHtml(request.InnerHtml, "h1"), request.FakeReasons);
 
             await esService.InsertToIndexAsync(new FakeNewsCovidIndex
             {
                 Id = result.Id,
                 Fakebility = result.Fakebility,
                 Body = formatted,
-                Url = uri.AbsoluteUri
+                BodyShingle = formatted,
+                Url = uri.AbsoluteUri,
+                Title = HtmlHelper.FormatHtml(request.InnerHtml, "h1"),
+                TimeStamp = GetRandomDate()
             });
 
             return true;
+        }
+
+        private DateTime GetRandomDate()
+        {
+            Random gen = new Random();
+            DateTime start = new DateTime(2019, 11, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(gen.Next(range));
         }
     }
 }

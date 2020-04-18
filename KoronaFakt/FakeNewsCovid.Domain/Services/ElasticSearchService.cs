@@ -5,6 +5,7 @@ using FakeNewsCovid.Domain.Context;
 using FakeNewsCovid.Domain.Models;
 using FakeNewsCovid.Domain.Models.Enum;
 using FakeNewsCovid.Domain.Services.Base;
+using FakeNewsCovid.Domain.Settings;
 using Microsoft.Extensions.Configuration;
 using Nest;
 
@@ -12,26 +13,26 @@ namespace FakeNewsCovid.Domain.Services
 {
     public class ElasticSearchService : IElasticSearchService
     {
-        private readonly ElasticClient client;
+        public readonly ElasticClient Client;
 
-        public ElasticSearchService(IConfiguration configuration)
+        public ElasticSearchService(ElasticsearchSettings settings)
         {
-            var connectionSetting = new ConnectionSettings(new Uri(configuration.GetValue<string>("ElasticSearch:ConnectionString")))
+            var connectionSetting = new ConnectionSettings(new Uri(settings.ConnectionString))
                     .DisableDirectStreaming()
                     .DefaultMappingFor<FakeNewsCovidIndex>(d => d
-                        .IndexName(configuration.GetValue<string>("ElasticSearch:DefaultIndex")));
+                        .IndexName(settings.DefaultIndex));
 
-            client = new ElasticClient(connectionSetting);
+            Client = new ElasticClient(connectionSetting);
         }
 
         public async Task InsertToIndexAsync(FakeNewsCovidIndex item)
         {
-            await client.IndexDocumentAsync<FakeNewsCovidIndex>(item);
+            await Client.IndexDocumentAsync<FakeNewsCovidIndex>(item);
         }
 
         public async Task<FakebilityEnum> MLT(string innerHtml)
         {
-            var search = await client.SearchAsync<FakeNewsCovidIndex>(s => s
+            var search = await Client.SearchAsync<FakeNewsCovidIndex>(s => s
                 .Query(q => q
                     .MoreLikeThis(mlt => mlt
                                     .Fields(fs => fs

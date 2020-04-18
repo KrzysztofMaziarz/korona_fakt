@@ -1,4 +1,5 @@
 ﻿using FakeNewsCovid.Domain.Models.Enum;
+using System;
 
 namespace FakeNewsCovid.Domain.Models
 {
@@ -12,6 +13,10 @@ namespace FakeNewsCovid.Domain.Models
 
         public string Body { get; set; }
 
+        public string BodyShingle { get; set; }
+
         public FakebilityEnum Fakebility { get; set; }
+
+        public DateTime TimeStamp { get; set; }
     }
 }

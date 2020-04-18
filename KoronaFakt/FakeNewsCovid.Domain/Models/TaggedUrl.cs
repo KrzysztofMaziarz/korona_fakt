@@ -15,6 +15,8 @@ namespace FakeNewsCovid.Domain.Models
 
         public string InnerWeb { get; set; }
 
+        public string Title { get; set; }
+
         public List<FakeReason> FakeReasons { get; set; }
 
         public string DomainHost { get; set; }
