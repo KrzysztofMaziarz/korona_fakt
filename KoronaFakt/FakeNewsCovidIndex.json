@@ -1,57 +1,82 @@
 {
-  "settings": {
-    "analysis": {
-      "filter": {
-        "pl_PL": {
-          "type": "hunspell",
-          "locale": "pl_PL",
-          "dedup": true
-        }
-      },
-      "analyzer": {
-        "polish_analyzer": {
-          "type": "custom",
-          "tokenizer": "lowercase",
-          "filter": [
-            "lowercase",
-            "pl_PL"
-          ]
-        }
-      }
-    }
-  },
-  "mappings": {
-    "properties": {
-        "url": {
-            "type": "text",
-            "analyzer": "keyword",
-            "fielddata": true
-        },
-        "title": {
-            "type": "text",
-            "fields": {
-                "text": {
-                    "type": "text",
-                    "store": true
+    "settings": {
+        "analysis": {
+            "filter": {
+                "pl_PL": {
+                    "type": "hunspell",
+                    "locale": "pl_PL",
+                    "dedup": true
                 }
             },
-            "analyzer": "polish_analyzer",
-            "fielddata": true
-        },
-        "body": {
-            "type": "text",
-            "fields": {
-                "text": {
-                    "type": "text",
-                    "store": true
+            "analyzer": {
+                "polish_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "lowercase",
+                    "filter": [
+                        "lowercase",
+                        "pl_PL"
+                    ]
+                },
+                "polish_shingle_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "lowercase",
+                    "filter": [
+                        "lowercase",
+                        "pl_PL",
+                        "shingle"
+                    ]
                 }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "url": {
+                "type": "text",
+                "analyzer": "keyword"
             },
-            "analyzer": "polish_analyzer",
-            "fielddata": true
-        },
-        "fakebility": {
-            "type": "long"
+            "title": {
+                "type": "text",
+                "fields": {
+                    "text": {
+                        "type": "text",
+                        "store": true
+                    }
+                },
+                "analyzer": "polish_analyzer",
+                "fielddata": true
+            },
+            "titleShingle": {
+                "type": "text",
+                "fields": {
+                    "text": {
+                        "type": "text",
+                        "store": true
+                    }
+                },
+                "analyzer": "polish_shingle_analyzer",
+                "fielddata": true
+            },
+            "body": {
+                "type": "text",
+                "fields": {
+                    "text": {
+                        "type": "text",
+                        "store": true
+                    }
+                },
+                "analyzer": "polish_analyzer",
+                "fielddata": true
+            },
+            "fakebility": {
+                "type": "byte"
+            },
+            "publicationDate": {
+                "type": "date"
+            },
+            "fakeRating": {
+                "type": "integer"
+            }
         }
     }
-  }
 }

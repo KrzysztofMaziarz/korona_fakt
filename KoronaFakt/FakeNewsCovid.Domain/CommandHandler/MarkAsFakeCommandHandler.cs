@@ -2,10 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FakeNewsCovid.Domain.Command;
+using FakeNewsCovid.Domain.Extensions;
 using FakeNewsCovid.Domain.Helper;
 using FakeNewsCovid.Domain.Models;
-using FakeNewsCovid.Domain.Query;
-using FakeNewsCovid.Domain.QueryResult;
+using FakeNewsCovid.Domain.Models.Enum;
 using FakeNewsCovid.Domain.Services.Base;
 using MediatR;
 
@@ -40,13 +40,14 @@ namespace FakeNewsCovid.Domain.CommandHandler
 
             await esService.InsertToIndexAsync(new FakeNewsCovidIndex
             {
-                Id = result.Id,
-                Fakebility = result.Fakebility,
+                Id = GuidExtension.NewDeterministicGuid(uri.AbsoluteUri),
+                Fakebility = GetRandomEnum(),
                 Body = formatted,
-                BodyShingle = formatted,
+                TitleShingle = HtmlHelper.FormatHtml(request.InnerHtml, "h1"),
                 Url = uri.AbsoluteUri,
                 Title = HtmlHelper.FormatHtml(request.InnerHtml, "h1"),
-                TimeStamp = GetRandomDate()
+                TimeStamp = GetRandomDate(),
+                FakeRating = RandomNumber(0, 100)
             });
 
             return true;
@@ -55,9 +56,22 @@ namespace FakeNewsCovid.Domain.CommandHandler
         private DateTime GetRandomDate()
         {
             Random gen = new Random();
-            DateTime start = new DateTime(2019, 11, 1);
+            DateTime start = new DateTime(2019, 12, 1);
             int range = (DateTime.Today - start).Days;
             return start.AddDays(gen.Next(range));
+        }
+
+        private FakebilityEnum GetRandomEnum()
+        {
+            Array values = Enum.GetValues(typeof(FakebilityEnum));
+            Random random = new Random();
+            return (FakebilityEnum)values.GetValue(random.Next(values.Length));
+        }
+
+        private int RandomNumber(int min, int max)
+        {
+            Random random = new Random();
+            return random.Next(min, max);
         }
     }
 }

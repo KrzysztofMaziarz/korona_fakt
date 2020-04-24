@@ -19,7 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ElasticsearchTools", "Elast
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D096ADA1-EAEB-40F2-9F3F-15D9C39FDC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeNewsCovid.UnitTests", "FakeNewsCovid.UnitTests\FakeNewsCovid.UnitTests.csproj", "{EC2B8F99-608A-4337-BD2E-6FBD0CEBA1B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakeNewsCovid.UnitTests", "FakeNewsCovid.UnitTests\FakeNewsCovid.UnitTests.csproj", "{EC2B8F99-608A-4337-BD2E-6FBD0CEBA1B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{806C4094-DF3E-4A16-9880-1FDC78ADFDBE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

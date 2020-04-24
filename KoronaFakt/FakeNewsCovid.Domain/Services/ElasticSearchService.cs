@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using FakeNewsCovid.Domain.Context;
-using FakeNewsCovid.Domain.Models;
+﻿using FakeNewsCovid.Domain.Models;
 using FakeNewsCovid.Domain.Models.Enum;
 using FakeNewsCovid.Domain.Services.Base;
 using FakeNewsCovid.Domain.Settings;
-using Microsoft.Extensions.Configuration;
 using Nest;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FakeNewsCovid.Domain.Services
 {
